@@ -9,7 +9,19 @@ import argparse
 
 # Add the calculate_accuracy function after imports and before training loop
 def calculate_accuracy(model, data_loader, device):
-    # ... function code as provided ...
+    model.eval()
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for data, target in data_loader:
+            data, target = data.to(device), target.to(device)
+            output = model(data)
+            _, predicted = torch.max(output.data, 1)
+            total += target.size(0)
+            correct += (predicted == target).sum().item()
+    accuracy = 100 * correct / total
+    return accuracy
+
 # Define the model
 class SimpleCNN(nn.Module):
     def __init__(self):
@@ -27,10 +39,18 @@ class SimpleCNN(nn.Module):
         x = self.fc1(x)
         return x
 
-# Load data
-transform = transforms.Compose([transforms.ToTensor()])
-train_dataset = datasets.MNIST(root='./data', train=True, transform=transform, download=True)
-train_loader = DataLoader(dataset=train_dataset, batch_size=64, shuffle=True)
+def load_data(batch_size=64):
+    transform = transforms.Compose([transforms.ToTensor()])
+    
+    # Load training data
+    train_dataset = datasets.MNIST(root='./data', train=True, transform=transform, download=True)
+    train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
+    
+    # Load test data
+    test_dataset = datasets.MNIST(root='./data', train=False, transform=transform, download=True)
+    test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
+    
+    return train_loader, test_loader
 
 def get_device(force_cpu=False):
     """Setup device agnostic code"""
