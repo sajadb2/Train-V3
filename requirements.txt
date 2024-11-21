@@ -4,3 +4,5 @@ numpy
 pillow
 scikit-learn
 # Exclude CUDA-specific requirements 
+tqdm>=4.65.0 
+tqdm
