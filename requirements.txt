@@ -1,1 +1,6 @@
- 
+torch
+torchvision
+numpy
+pillow
+scikit-learn
+# Exclude CUDA-specific requirements 
