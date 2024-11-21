@@ -3,8 +3,6 @@ import torch.nn as nn
 import torch.optim as optim
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-# At the top of your script with other imports
-from sklearn.metrics import accuracy_score
 import argparse
 
 # Add the calculate_accuracy function after imports and before training loop
@@ -26,15 +24,17 @@ def calculate_accuracy(model, data_loader, device):
 class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
-        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, stride=1, padding=1)
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
-        self.fc1 = nn.Linear(32 * 7 * 7, 10)
+        self.conv1 = nn.Conv2d(1, 8, kernel_size=3, stride=1, padding=1)
+        self.conv2 = nn.Conv2d(8, 16, kernel_size=3, stride=1, padding=1)
+        self.dropout = nn.Dropout(0.25)
+        self.fc1 = nn.Linear(16 * 7 * 7, 10)
 
     def forward(self, x):
         x = torch.relu(self.conv1(x))
         x = torch.max_pool2d(x, 2)
         x = torch.relu(self.conv2(x))
         x = torch.max_pool2d(x, 2)
+        x = self.dropout(x)
         x = x.view(x.size(0), -1)
         x = self.fc1(x)
         return x
@@ -88,7 +88,9 @@ def train(model, train_loader, test_loader, num_epochs, device, target_accuracy=
         
         if test_accuracy >= target_accuracy:
             print(f'Reached target accuracy of {target_accuracy}%!')
-            break
+            return model
+    
+    return model
 
 def main():
     parser = argparse.ArgumentParser(description='Training Script')
@@ -106,11 +108,13 @@ def main():
     train_loader, test_loader = load_data(batch_size=args.batch_size)
     
     # Initialize model
-    model = SimpleCNN()  # Replace with your model class
+    model = SimpleCNN()
     
-    # Train
-    train(model, train_loader, test_loader, args.epochs, device, args.target_accuracy)
+    # Train and capture the returned model
+    trained_model = train(model, train_loader, test_loader, args.epochs, device, args.target_accuracy)
+    
+    # Save the trained_model (not model)
+    torch.save(trained_model.state_dict(), "model.pth")
 
 if __name__ == '__main__':
     main()
-    torch.save(model.state_dict(), "model.pth") 
