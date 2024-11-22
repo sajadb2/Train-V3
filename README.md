@@ -1,4 +1,4 @@
-# Your Project Name
+# MNIST based model Training & Testing
 
 [![License](https://img.shields.io/github/license/sajadb2/Train-V3)](https://github.com/sajadb2/Train-V3/blob/main/LICENSE)
 [![Issues](https://img.shields.io/github/issues/sajadb2/Train-V3)](https://github.com/sajadb2/Train-V3/issues)
@@ -11,7 +11,7 @@
 
 ## Project Description
 This project implements a lightweight CNN architecture to classify handwritten digits from the MNIST dataset.
-The model achieves >97% accuracy on the test set with minimal training.
+The model achieves >95% accuracy on the test set with minimal training. Also augmented an image pycode to just augment the images.
 
 ## Model architecture details
 
@@ -45,51 +45,49 @@ Installation and usage instructions
         - `--batch-size`: Batch size for training (default: 64)
         - `--target-accuracy`: Target accuracy to stop training (default: 96.0)
    
-### Testing
-    Test the trained model using:
-        python test.py
+## Testing
+    The project includes comprehensive tests:
+        - Model architecture validation
+        - Output shape verification
+        - Accuracy threshold testing
+        - Output determinism verification
 
-Performance metrics
-File structure
+
+### File structure
     The project includes the following files:
         Train-V3/
-        ├── train.py # Training script
-        ├── test.py # Testing script
-        ├── model.pth # Saved model weights
-        ├── requirements.txt
-        └── README.md
+        ├── pycache/                # Pycache directory
+        ├── .github/
+        │   └── workflows/
+        │       └── main.yml           # GitHub Actions workflow configuration
+        │       └── python-app.yml     # GitHub Actions workflow configuration
+        ├── augmented_images/       # Augmented images directory
+        ├── data/
+        │   ├── MNIST/
+        │   │   ├── raw/
+        │   │   │   ├── train-images-idx3-ubyte.gz
+        │   │   │   └── train-labels-idx1-ubyte.gz
+        │   │   │   ├── t10k-images-idx3-ubyte.gz
+        │   │   │   └── t10k-labels-idx1-ubyte.gz
+        ├── gitignore              # Git ignore file
+        ├── augment.py             # Image augmentation script
+        ├── config.py              # Configuration file
+        ├── environment.yml        # Environment file
+        ├── image.png              # Image file
+        ├── model.pth               # Saved model weights
+        ├── requirements.txt        # Project dependencies
+        ├── test.py                 # Testing script 
+        ├── train.py                # Training script
+        ├── training_log.txt        # Training log file
+        └── README.md              # Project documentation
 
-Other standard documentation sections
-You should customize:
-The repository URL
-License information
-Your name in the Authors section
-Any specific acknowledgments
-Additional sections based on your project's needs
-You can also add:
-Screenshots of training progress
-Example predictions
-More detailed performance metrics
-Hardware requirements
-Known issues or limitations
-Future improvements planned
-
-## Image Augmentation
-The project includes image augmentation capabilities:
-- Random rotation (±10 degrees)
-- Random affine transformations
-- Brightness and contrast adjustments
-- Gaussian noise injection
-- Random translations
-
-Usage:
-
-## Testing
-The project includes comprehensive tests:
-- Model architecture validation
-- Output shape verification
-- Accuracy threshold testing
-- Output determinism verification
+### Part 2: Image Augmentation
+    The project includes image augmentation capabilities:
+        - Random rotation (±10 degrees)
+        - Random affine transformations
+        - Brightness and contrast adjustments
+        - Gaussian noise injection
+        - Random translations
 
 Run tests using:
 
@@ -103,3 +101,13 @@ Run tests using:
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 [![torchvision](https://img.shields.io/badge/torchvision-0.15+-blue.svg)](https://pytorch.org/vision/stable/index.html)
 [![tqdm](https://img.shields.io/badge/tqdm-4.65+-green.svg)](https://tqdm.github.io/)
+
+
+Screenshots of Augmented Images.
+    Refer to augmented_images
+
+The repository URL
+    https://github.com/sajadb2/Train-V3.git
+
+License information
+    None
