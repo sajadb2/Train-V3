@@ -1,5 +1,7 @@
 # Train-V3: MNIST Digit Classification with PyTorch
 
+[![Python application](https://github.com/sajadb2/Train-V3/actions/workflows/python-app.yml/badge.svg)](https://github.com/yourusername/Train-V3/actions/workflows/python-app.yml)
+
     A simple Convolutional Neural Network (CNN) implementation for MNIST digit classification using PyTorch.
 
 ## Project Description
@@ -62,3 +64,22 @@ More detailed performance metrics
 Hardware requirements
 Known issues or limitations
 Future improvements planned
+
+## Image Augmentation
+The project includes image augmentation capabilities:
+- Random rotation (±10 degrees)
+- Random affine transformations
+- Brightness and contrast adjustments
+- Gaussian noise injection
+- Random translations
+
+Usage:
+
+## Testing
+The project includes comprehensive tests:
+- Model architecture validation
+- Output shape verification
+- Accuracy threshold testing
+- Output determinism verification
+
+Run tests using:

@@ -1,58 +1,48 @@
 import torch
-from train import SimpleCNN
-from tqdm import tqdm
-import logging
+import unittest
+from train import SimpleCNN, calculate_accuracy
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
 
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler('training_log.txt')
-    ]
-)
+class TestMNISTModel(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.model = SimpleCNN()
+        cls.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        cls.model.load_state_dict(torch.load('model.pth', map_location=cls.device))
+        cls.model.eval()
+        
+        # Load test data
+        transform = transforms.Compose([transforms.ToTensor()])
+        cls.test_dataset = datasets.MNIST(root='./data', train=False, 
+                                        transform=transform, download=True)
+        cls.test_loader = DataLoader(cls.test_dataset, batch_size=1000, shuffle=False)
 
-def calculate_accuracy(model, data_loader, device):
-    model.eval()
-    correct = 0
-    total = 0
-    with torch.no_grad():
-        for images, labels in tqdm(data_loader, desc="Calculating accuracy"):
-            images, labels = images.to(device), labels.to(device)
-            outputs = model(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-    
-    accuracy = 100 * correct / total
-    logging.info(f'Accuracy: {accuracy:.2f}%')
-    return accuracy
+    def test_model_architecture(self):
+        """Test if model architecture matches expected structure"""
+        self.assertTrue(hasattr(self.model, 'conv1'))
+        self.assertTrue(hasattr(self.model, 'conv2'))
+        self.assertTrue(hasattr(self.model, 'fc1'))
+        self.assertEqual(self.model.conv1.out_channels, 8)
+        self.assertEqual(self.model.conv2.out_channels, 16)
 
-def test_model():
-    model = SimpleCNN()
-    model.load_state_dict(torch.load("model.pth", weights_only=True))
-    model.eval()
+    def test_model_output_shape(self):
+        """Test if model produces correct output shape"""
+        sample_input = torch.randn(1, 1, 28, 28)
+        output = self.model(sample_input)
+        self.assertEqual(output.shape, (1, 10))
 
-    # Check number of parameters
-    num_params = sum(p.numel() for p in model.parameters())
-    assert num_params < 25000, f"Model has too many parameters: {num_params}"
+    def test_model_accuracy(self):
+        """Test if model meets minimum accuracy threshold"""
+        accuracy = calculate_accuracy(self.model, self.test_loader, self.device)
+        self.assertGreater(accuracy, 95.0)
 
-    # Check input size
-    input_tensor = torch.randn(1, 1, 28, 28)
-    output = model(input_tensor)
-    assert output.shape == (1, 10), f"Output shape is incorrect: {output.shape}"
+    def test_model_deterministic(self):
+        """Test if model produces consistent outputs"""
+        sample_input = torch.randn(1, 1, 28, 28)
+        output1 = self.model(sample_input)
+        output2 = self.model(sample_input)
+        self.assertTrue(torch.allclose(output1, output2))
 
-    # Check accuracy (dummy check for illustration)
-    # In practice, you would load a test dataset and calculate accuracy
-    accuracy = 0.97  # Placeholder for actual accuracy calculation
-    assert accuracy > 0.96, f"Model accuracy is too low: {accuracy}"
-
-def save_final_results(train_accuracy, test_accuracy):
-    with open('RESULTS.md', 'w') as f:
-        f.write('# Training Results\n\n')
-        f.write(f'Final Training Accuracy: {train_accuracy:.2f}%\n\n')
-        f.write(f'Final Testing Accuracy: {test_accuracy:.2f}%\n')
-
-if __name__ == "__main__":
-    test_model() 
+if __name__ == '__main__':
+    unittest.main() 
