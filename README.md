@@ -6,10 +6,12 @@
 [![Last Commit](https://img.shields.io/github/last-commit/sajadb2/Train-V3)](https://github.com/sajadb2/Train-V3/commits/main)
 [![Python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 
-    A simple Convolutional Neural Network (CNN) implementation for MNIST digit classification using PyTorch.
+ A simple Convolutional Neural Network (CNN) implementation for MNIST digit 
+ classification using PyTorch.
 
 ## Project Description
-    This project implements a lightweight CNN architecture to classify handwritten digits from the MNIST dataset. The model achieves >97% accuracy on the test set with minimal training.
+This project implements a lightweight CNN architecture to classify handwritten digits from the MNIST dataset.
+The model achieves >97% accuracy on the test set with minimal training.
 
 ## Model architecture details
 
@@ -27,11 +29,14 @@
     torchvision
     tqdm
 Installation and usage instructions
+
     1. Clone the repository:
         git clone https://github.com/yourusername/Train-V3.git
         cd Train-V3
+
     2. Install the dependencies:
         pip install -r requirements.txt
+
     3. Train the model:
         python train.py        
         Options:
