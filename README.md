@@ -1,6 +1,10 @@
-# Train-V3: MNIST Digit Classification with PyTorch
+# Your Project Name
 
-[![Python application](https://github.com/sajadb2/Train-V3/actions/workflows/python-app.yml/badge.svg)](https://github.com/yourusername/Train-V3/actions/workflows/python-app.yml)
+[![License](https://img.shields.io/github/license/sajadb2/Train-V3)](https://github.com/sajadb2/Train-V3/blob/main/LICENSE)
+[![Issues](https://img.shields.io/github/issues/sajadb2/Train-V3)](https://github.com/sajadb2/Train-V3/issues)
+[![Stars](https://img.shields.io/github/stars/sajadb2/Train-V3)](https://github.com/sajadb2/Train-V3/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/sajadb2/Train-V3)](https://github.com/sajadb2/Train-V3/commits/main)
+[![Python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
 
     A simple Convolutional Neural Network (CNN) implementation for MNIST digit classification using PyTorch.
 
@@ -83,3 +87,14 @@ The project includes comprehensive tests:
 - Output determinism verification
 
 Run tests using:
+
+<!-- Build Status -->
+[![Build Status](https://github.com/sajadb2/Train-V3/workflows/CI/badge.svg)](https://github.com/sajadb2/Train-V3/actions)
+    
+<!-- Code Coverage -->
+[![Coverage Status](https://coveralls.io/repos/github/sajadb2/Train-V3/badge.svg?branch=main)](https://coveralls.io/github/sajadb2/Train-V3?branch=main)
+
+<!-- Dependencies -->
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![torchvision](https://img.shields.io/badge/torchvision-0.15+-blue.svg)](https://pytorch.org/vision/stable/index.html)
+[![tqdm](https://img.shields.io/badge/tqdm-4.65+-green.svg)](https://tqdm.github.io/)
