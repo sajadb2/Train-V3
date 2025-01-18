@@ -1,0 +1,6 @@
+torch
+torch
+tiktoken
+torchvision
+streamlit
+uvicorn
